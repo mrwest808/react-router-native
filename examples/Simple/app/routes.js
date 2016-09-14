@@ -10,10 +10,23 @@ import {
   withRouter,
 } from 'react-router-native';
 import {
+  NavigationExperimental,
   ScrollView,
   StyleSheet,
   View,
 } from 'react-native';
+import { addHandler, HORIZONTAL_PAGER } from 'react-router-native/modules/transitionRegistry';
+
+const {
+  Card: { PagerPanResponder, PagerStyleInterpolator }
+} = NavigationExperimental;
+
+// Modify behaviour of HORIZONTAL_PAGER transitions
+addHandler(
+  HORIZONTAL_PAGER,
+  PagerStyleInterpolator.forHorizontal,
+  PagerPanResponder.forHorizontal
+);
 
 const styles = StyleSheet.create({
   component: {
@@ -106,7 +119,7 @@ const Detail = (props) => (
 
 const routes = (
   /* Address Bar can be toggled on or off by setting the addressBar prop */
-  <Router history={nativeHistory} addressBar>
+  <Router history={nativeHistory} addressBar={false}>
     <StackRoute path="master" component={Master}>
       <Route path="/" component={Home} overlayComponent={HomeHeader} />
       <Route path="/detail/:themeColor" component={Detail} overlayComponent={DetailHeader} />
